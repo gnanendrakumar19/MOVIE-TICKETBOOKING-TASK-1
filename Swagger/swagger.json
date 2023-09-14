@@ -1,0 +1,125 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "MovieTicketBooking(MTB) Application",
+        "description": "API document for MovieTicketBooking Service",
+        "x-task1-appname": "MTB",
+        "x-task1-seal": 104437,
+        "version": "23.03.0"
+    },
+    "x-task1-securityDefinitions": {
+        "TASK-OAuth2": {
+            "task1-claims": {
+                "task1-roles": {
+                    "Reader": "Read role claim",
+                    "Editor": "Write role claim"
+                }
+            }
+        }
+    },
+    "x-task1-security": {
+        "TASK-OAuth2": {
+            "task1-claims": {
+                "task1-roles": {
+                    "Reader": "Read role claim",
+                    "Editor": "Write role claim"
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "",
+            "description": "http://localhost:1111-Relative server url",
+            "variables": {}
+        }
+    ],
+    "paths": {
+        "/user/{UserID}  Get user by UserID from MySQL": {
+            "get": {
+                "tags": [
+                    "USER TABLE"
+                ],
+                "summary": "Get customer subscription",
+                "operationId": "getUserDetailsByUUID or UserID",
+                "responses": {
+                    "200": {
+                        "description": "Return customer subscription ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/getSubscriptionDetailsByUUIDResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "API not available",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+

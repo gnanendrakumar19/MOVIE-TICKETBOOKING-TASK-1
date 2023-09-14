@@ -1,0 +1,18 @@
+{
+    "development": {
+        "SQL": {
+            "CLIENT": "mysql2",
+            "HOST": "localhost",
+            "USER": "root",
+            "PASWD": "Y18ACE482@ngk",
+            "DATABASE": "ticket_booking",
+            "OWNER": null,
+            "CONNECT_STRING": "NULL",
+            "POOL":{
+                "MIN": 0,
+                "MAX": 3
+            },
+            "CONNECTION_TIMEOUT":200000
+        }
+    }
+}

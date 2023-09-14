@@ -1,0 +1,3409 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "MovieTicketBooking(MTB) Application",
+        "description": "API document for MovieTicketBooking Service",
+        "x-task1-appname": "MTB",
+        "x-task1-seal": 104437,
+        "version": "23.03.0"
+    },
+    "x-task1-securityDefinitions": {
+        "TASK-OAuth2": {
+            "task1-claims": {
+                "task1-roles": {
+                    "Reader": "Read role claim",
+                    "Editor": "Write role claim"
+                }
+            }
+        }
+    },
+    "x-task1-security": {
+        "TASK-OAuth2": {
+            "task1-claims": {
+                "task1-roles": {
+                    "Reader": "Read role claim",
+                    "Editor": "Write role claim"
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "",
+            "description": "http://localhost:1111-Relative server url",
+            "variables": {}
+        }
+    ],
+    "paths": {
+        "/user": {
+            "get": {
+                "tags": [
+                    "USER TABLE"
+                ],
+                "summary": "Get all users",
+                "operationId": "getUsers",
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "USER TABLE"
+                ],
+                "summary": "Create a new user",
+                "operationId": "createUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/user/{UserID}": {
+            "get": {
+                "tags": [
+                    "USER TABLE"
+                ],
+                "summary": "Get user by UserID",
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "name": "UserID",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the user details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "USER TABLE"
+                ],
+                "summary": "Update user details",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "UserID",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User details updated successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "USER TABLE"
+                ],
+                "summary": "Delete user",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "UserID",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User deleted successfully"
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/admin": {
+            "get": {
+                "tags": [
+                    "ADMIN TABLE"
+                ],
+                "summary": "Get all admins",
+                "operationId": "getAdmins",
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of admins",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Admin"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ADMIN TABLE"
+                ],
+                "summary": "Create a new admin",
+                "operationId": "createAdmin",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Admin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Admin created successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Admin"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/admin/{AdminID}": {
+            "get": {
+                "tags": [
+                    "ADMIN TABLE"
+                ],
+                "summary": "Get admin by AdminID",
+                "operationId": "getAdminById",
+                "parameters": [
+                    {
+                        "name": "AdminID",
+                        "in": "path",
+                        "description": "Admin ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the admin details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Admin"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "ADMIN TABLE"
+                ],
+                "summary": "Update admin details",
+                "operationId": "updateAdmin",
+                "parameters": [
+                    {
+                        "name": "AdminID",
+                        "in": "path",
+                        "description": "Admin ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Admin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Admin details updated successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Admin"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "ADMIN TABLE"
+                ],
+                "summary": "Delete admin",
+                "operationId": "deleteAdmin",
+                "parameters": [
+                    {
+                        "name": "AdminID",
+                        "in": "path",
+                        "description": "Admin ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Admin deleted successfully"
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/city": {
+            "get": {
+                "tags": [
+                    "CITY TABLE"
+                ],
+                "summary": "Get all cities",
+                "operationId": "getCities",
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/City"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "CITY TABLE"
+                ],
+                "summary": "Create a new city",
+                "operationId": "createCity",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/City"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "City created successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/City"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/city/{CityID}": {
+            "get": {
+                "tags": [
+                    "CITY TABLE"
+                ],
+                "summary": "Get city by ID",
+                "operationId": "getCityById",
+                "parameters": [
+                    {
+                        "name": "CityID",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the city details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/City"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "City not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "CITY TABLE"
+                ],
+                "summary": "Update city details",
+                "operationId": "updateCity",
+                "parameters": [
+                    {
+                        "name": "CityID",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/City"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "City details updated successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/City"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "City not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "CITY TABLE"
+                ],
+                "summary": "Delete city",
+                "operationId": "deleteCity",
+                "parameters": [
+                    {
+                        "name": "CityID",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "City deleted successfully"
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Request is not valid",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing Auth Token",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "City not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "bbt": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/movies": {
+            "get": {
+                "tags": [
+                    "MOVIES TABLE"
+                ],
+                "summary": "Get all movies",
+                "operationId": "getMovies",
+                "responses": {
+                    "200": {
+                        "description": "Returns a list of movies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Movie"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MOVIES TABLE"
+                ],
+                "summary": "Create a new movie",
+                "operationId": "createMovie",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Movie"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Movie created successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Movie"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/movies/{movieId}": {
+            "get": {
+                "tags": [
+                    "MOVIES TABLE"
+                ],
+                "summary": "Get a movie by ID",
+                "operationId": "getMovieById",
+                "parameters": [
+                    {
+                        "name": "movieId",
+                        "in": "path",
+                        "description": "ID of the movie",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the movie details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Movie"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "MOVIES TABLE"
+                ],
+                "summary": "Update a movie",
+                "operationId": "updateMovie",
+                "parameters": [
+                    {
+                        "name": "movieId",
+                        "in": "path",
+                        "description": "ID of the movie",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Movie"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Movie updated successfully",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Movie"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MOVIES TABLE"
+                ],
+                "summary": "Delete a movie",
+                "operationId": "deleteMovie",
+                "parameters": [
+                    {
+                        "name": "movieId",
+                        "in": "path",
+                        "description": "ID of the movie",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Movie deleted successfully"
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/theaters": {
+            "get": {
+                "tags": [
+                    "THEATER TABLE"
+                ],
+                "summary": "Get all theaters",
+                "operationId": "getAllTheaters",
+                "responses": {
+                    "200": {
+                        "description": "List of theaters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Theater"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "THEATER TABLE"
+                ],
+                "summary": "Create a new theater",
+                "operationId": "createTheater",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Theater"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Theater created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Theater"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/theaters/{theaterId}": {
+            "get": {
+                "tags": [
+                    "THEATER TABLE"
+                ],
+                "summary": "Get a theater by ID",
+                "operationId": "getTheaterById",
+                "parameters": [
+                    {
+                        "name": "theaterId",
+                        "in": "path",
+                        "description": "ID of the theater",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Theater found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Theater"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Theater not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "THEATER TABLE"
+                ],
+                "summary": "Update a theater",
+                "operationId": "updateTheater",
+                "parameters": [
+                    {
+                        "name": "theaterId",
+                        "in": "path",
+                        "description": "ID of the theater",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Theater"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Theater updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Theater"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Theater not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "THEATER TABLE"
+                ],
+                "summary": "Delete a theater",
+                "operationId": "deleteTheater",
+                "parameters": [
+                    {
+                        "name": "theaterId",
+                        "in": "path",
+                        "description": "ID of the theater",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Theater deleted successfully"
+                    },
+                    "404": {
+                        "description": "Theater not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shows": {
+            "get": {
+                "tags": [
+                    "SHOWS TABLE"
+                ],
+                "summary": "Get all shows",
+                "operationId": "getAllShows",
+                "responses": {
+                    "200": {
+                        "description": "List of shows",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Show"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "SHOWS TABLE"
+                ],
+                "summary": "Create a new show",
+                "operationId": "createShow",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Show"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Show created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Show"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shows/{showId}": {
+            "get": {
+                "tags": [
+                    "SHOWS TABLE"
+                ],
+                "summary": "Get a show by ID",
+                "operationId": "getShowById",
+                "parameters": [
+                    {
+                        "name": "showId",
+                        "in": "path",
+                        "description": "ID of the show",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Show"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Show not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "SHOWS TABLE"
+                ],
+                "summary": "Update a show",
+                "operationId": "updateShow",
+                "parameters": [
+                    {
+                        "name": "showId",
+                        "in": "path",
+                        "description": "ID of the show",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Show"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Show updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Show"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Show not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "SHOWS TABLE"
+                ],
+                "summary": "Delete a show",
+                "operationId": "deleteShow",
+                "parameters": [
+                    {
+                        "name": "showId",
+                        "in": "path",
+                        "description": "ID of the show",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Show deleted successfully"
+                    },
+                    "404": {
+                        "description": "Show not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bookings": {
+            "get": {
+                "tags": [
+                    "BOOKINGS TABLE"
+                ],
+                "summary": "Get all bookings",
+                "operationId": "getBookings",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Booking"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "BOOKINGS TABLE"
+                ],
+                "summary": "Create a new booking",
+                "operationId": "createBooking",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Booking"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Booking created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bookings/{bookingId}": {
+            "get": {
+                "tags": [
+                    "BOOKINGS TABLE"
+                ],
+                "summary": "Get a booking by ID",
+                "operationId": "getBookingById",
+                "parameters": [
+                    {
+                        "name": "bookingId",
+                        "in": "path",
+                        "description": "ID of the booking",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Booking not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "BOOKINGS TABLE"
+                ],
+                "summary": "Update a booking",
+                "operationId": "updateBooking",
+                "parameters": [
+                    {
+                        "name": "bookingId",
+                        "in": "path",
+                        "description": "ID of the booking",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Booking"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Booking updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Booking not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "BOOKINGS TABLE"
+                ],
+                "summary": "Delete a booking",
+                "operationId": "deleteBooking",
+                "parameters": [
+                    {
+                        "name": "bookingId",
+                        "in": "path",
+                        "description": "ID of the booking",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Booking deleted successfully"
+                    },
+                    "404": {
+                        "description": "Booking not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/payments": {
+            "get": {
+                "tags": [
+                    "PAYMENTS TABLE"
+                ],
+                "summary": "Get all payments",
+                "operationId": "getPayments",
+                "responses": {
+                    "200": {
+                        "description": "List of payments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Payment"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "PAYMENTS TABLE"
+                ],
+                "summary": "Create a new payment",
+                "operationId": "createPayment",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Payment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{paymentId}": {
+            "get": {
+                "tags": [
+                    "PAYMENTS TABLE"
+                ],
+                "summary": "Get a payment by ID",
+                "operationId": "getPaymentById",
+                "parameters": [
+                    {
+                        "name": "paymentId",
+                        "in": "path",
+                        "description": "ID of the payment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "PAYMENTS TABLE"
+                ],
+                "summary": "Update a payment",
+                "operationId": "updatePayment",
+                "parameters": [
+                    {
+                        "name": "paymentId",
+                        "in": "path",
+                        "description": "ID of the payment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Payment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payment updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "PAYMENTS TABLE"
+                ],
+                "summary": "Delete a payment",
+                "operationId": "deletePayment",
+                "parameters": [
+                    {
+                        "name": "paymentId",
+                        "in": "path",
+                        "description": "ID of the payment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment deleted successfully"
+                    },
+                    "404": {
+                        "description": "Payment not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cinemas": {
+            "get": {
+                "tags": [
+                    "CINEMAS TABLE"
+                ],
+                "summary": "Get all cinemas",
+                "operationId": "getCinemas",
+                "responses": {
+                    "200": {
+                        "description": "List of cinemas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Cinema"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CINEMAS TABLE"
+                ],
+                "summary": "Create a new cinema",
+                "operationId": "createCinema",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Cinema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cinema created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cinema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cinemas/{cinemaId}": {
+            "get": {
+                "tags": [
+                    "CINEMAS TABLE"
+                ],
+                "summary": "Get a cinema by ID",
+                "operationId": "getCinemaById",
+                "parameters": [
+                    {
+                        "name": "cinemaId",
+                        "in": "path",
+                        "description": "ID of the cinema",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cinema details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cinema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cinema not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CINEMAS TABLE"
+                ],
+                "summary": "Update a cinema",
+                "operationId": "updateCinema",
+                "parameters": [
+                    {
+                        "name": "cinemaId",
+                        "in": "path",
+                        "description": "ID of the cinema",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Cinema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cinema updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cinema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cinema not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CINEMAS TABLE"
+                ],
+                "summary": "Delete a cinema",
+                "operationId": "deleteCinema",
+                "parameters": [
+                    {
+                        "name": "cinemaId",
+                        "in": "path",
+                        "description": "ID of the cinema",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cinema deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cinema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cinema not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cinema-seats": {
+            "get": {
+                "tags": [
+                    "CINEMA SEATS TABLE"
+                ],
+                "summary": "Get all cinema seats",
+                "operationId": "getCinemaSeats",
+                "responses": {
+                    "200": {
+                        "description": "List of cinema seats",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CinemaSeat"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CINEMA SEATS TABLE"
+                ],
+                "summary": "Create a new cinema seat",
+                "operationId": "createCinemaSeat",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CinemaSeat"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cinema seat created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CinemaSeat"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cinema-seats/{cinemaSeatId}": {
+            "get": {
+                "tags": [
+                    "CINEMA SEATS TABLE"
+                ],
+                "summary": "Get a cinema seat by ID",
+                "operationId": "getCinemaSeatById",
+                "parameters": [
+                    {
+                        "name": "cinemaSeatId",
+                        "in": "path",
+                        "description": "ID of the cinema seat",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cinema seat found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CinemaSeat"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cinema seat not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "CINEMA SEATS TABLE"
+                ],
+                "summary": "Update a cinema seat",
+                "operationId": "updateCinemaSeat",
+                "parameters": [
+                    {
+                        "name": "cinemaSeatId",
+                        "in": "path",
+                        "description": "ID of the cinema seat",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CinemaSeat"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cinema seat updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CinemaSeat"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cinema seat not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "CINEMA SEATS TABLE"
+                ],
+                "summary": "Delete a cinema seat",
+                "operationId": "deleteCinemaSeat",
+                "parameters": [
+                    {
+                        "name": "cinemaSeatId",
+                        "in": "path",
+                        "description": "ID of the cinema seat",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Cinema seat deleted successfully"
+                    },
+                    "404": {
+                        "description": "Cinema seat not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/show-seats": {
+            "get": {
+                "tags": [
+                    "SHOW SEATS TABLE"
+                ],
+                "summary": "Get all show seats",
+                "operationId": "getShowSeats",
+                "responses": {
+                    "200": {
+                        "description": "List of show seats",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ShowSeat"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "SHOW SEATS TABLE"
+                ],
+                "summary": "Create a new show seat",
+                "operationId": "createShowSeat",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ShowSeat"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Show seat created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShowSeat"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/show-seats/{showSeatId}": {
+            "get": {
+                "tags": [
+                    "SHOW SEATS TABLE"
+                ],
+                "summary": "Get a show seat by ID",
+                "operationId": "getShowSeatById",
+                "parameters": [
+                    {
+                        "name": "showSeatId",
+                        "in": "path",
+                        "description": "ID of the show seat",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show seat found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShowSeat"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Show seat not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "SHOW SEATS TABLE"
+                ],
+                "summary": "Update a show seat",
+                "operationId": "updateShowSeat",
+                "parameters": [
+                    {
+                        "name": "showSeatId",
+                        "in": "path",
+                        "description": "ID of the show seat",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ShowSeat"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Show seat updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ShowSeat"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Show seat not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "SHOW SEATS TABLE"
+                ],
+                "summary": "Delete a show seat",
+                "operationId": "deleteShowSeat",
+                "parameters": [
+                    {
+                        "name": "showSeatId",
+                        "in": "path",
+                        "description": "ID of the show seat",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Show seat deleted successfully"
+                    },
+                    "404": {
+                        "description": "Show seat not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error while processing the request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "UserID": {
+                        "type": "string"
+                    },
+                    "Name": {
+                        "type": "string"
+                    },
+                    "Password": {
+                        "type": "string"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "Phone": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Admin": {
+                "type": "object",
+                "properties": {
+                    "AdminID": {
+                        "type": "string"
+                    },
+                    "Name": {
+                        "type": "string"
+                    },
+                    "Password": {
+                        "type": "string"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "Phone": {
+                        "type": "string"
+                    }
+                }
+            },
+            "City": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "City ID"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "City name"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Country name"
+                    },
+                    "population": {
+                        "type": "integer",
+                        "description": "City population"
+                    }
+                },
+                "required": [
+                    "name",
+                    "country",
+                    "population"
+                ]
+            },
+            "Movie": {
+                "type": "object",
+                "properties": {
+                    "movieId": {
+                        "type": "integer",
+                        "description": "Movie ID"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the movie"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the movie"
+                    },
+                    "duration": {
+                        "type": "string",
+                        "description": "Duration of the movie"
+                    },
+                    "language": {
+                        "type": "string",
+                        "description": "Language of the movie"
+                    },
+                    "releaseDate": {
+                        "type": "string",
+                        "description": "Release date of the movie"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Country of the movie"
+                    },
+                    "genre": {
+                        "type": "string",
+                        "description": "Genre of the movie"
+                    }
+                },
+                "required": [
+                    "title",
+                    "description",
+                    "duration",
+                    "language",
+                    "releaseDate",
+                    "country",
+                    "genre"
+                ]
+            },
+            "Theater": {
+                "type": "object",
+                "properties": {
+                    "TheaterID": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "Name": {
+                        "type": "string",
+                        "example": "Theater A"
+                    },
+                    "TotalSeats": {
+                        "type": "string",
+                        "example": "200"
+                    },
+                    "THEATER_CinemaID": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                }
+            },
+            "Show": {
+                "type": "object",
+                "properties": {
+                    "showId": {
+                        "type": "integer"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "endTime": {
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "theaterId": {
+                        "type": "integer"
+                    },
+                    "movieId": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "date",
+                    "startTime",
+                    "endTime",
+                    "theaterId",
+                    "movieId"
+                ]
+            },
+            "Booking": {
+                "type": "object",
+                "properties": {
+                    "BookingID": {
+                        "type": "integer"
+                    },
+                    "NumberofSeats": {
+                        "type": "integer"
+                    },
+                    "TimeStamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "Status": {
+                        "type": "integer"
+                    },
+                    "Booking_UserID": {
+                        "type": "string"
+                    },
+                    "Booking_ShowID": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Payment": {
+                "type": "object",
+                "properties": {
+                    "PaymentID": {
+                        "type": "integer"
+                    },
+                    "AmountNumber": {
+                        "type": "integer"
+                    },
+                    "TimeStamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "DiscountCoupon": {
+                        "type": "string"
+                    },
+                    "RemoteTransactionID": {
+                        "type": "string"
+                    },
+                    "PaymentMethod": {
+                        "type": "string"
+                    },
+                    "PAYMENT_BookingID": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "PaymentID",
+                    "AmountNumber",
+                    "TimeStamp",
+                    "PaymentMethod",
+                    "PAYMENT_BookingID"
+                ]
+            },
+            "Cinema": {
+                "type": "object",
+                "properties": {
+                    "CinemaID": {
+                        "type": "string"
+                    },
+                    "Name": {
+                        "type": "string"
+                    },
+                    "TotalCinemaHalls": {
+                        "type": "string"
+                    },
+                    "CINEMA_CityID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CinemaSeat": {
+                "type": "object",
+                "properties": {
+                    "CinemaSeatID": {
+                        "type": "string"
+                    },
+                    "SeatNumber": {
+                        "type": "integer"
+                    },
+                    "Type": {
+                        "type": "string"
+                    },
+                    "CINEMA_SEAT_TheaterID": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "ShowSeat": {
+                "type": "object",
+                "properties": {
+                    "ShowSeatID": {
+                        "type": "integer"
+                    },
+                    "Status": {
+                        "type": "string"
+                    },
+                    "Price": {
+                        "type": "integer"
+                    },
+                    "SHOW_SEAT_CinemaSeatID": {
+                        "type": "string"
+                    },
+                    "SHOW_SEAT_ShowID": {
+                        "type": "integer"
+                    },
+                    "SHOW_SEAT_BookingID": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "ErrorInfo": {
+                "type": "object",
+                "properties": {
+                    "errorCode": {
+                        "type": "string"
+                    },
+                    "errorMessage": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "bbt": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "BBT"
+            },
+            "token": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        }
+    }
+}
